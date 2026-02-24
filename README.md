@@ -66,7 +66,7 @@ npm run preview
 
 ## License
 
-MIT License
+[MIT License](LICENSE)
 
 ---
 
