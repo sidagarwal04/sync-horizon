@@ -54,7 +54,11 @@
 
         <div v-if="sourceInfo" class="timezone-info">
           <div class="info-row">
-            <span class="info-label">{{ sourceInfo.abbreviation }}</span>
+            <span class="info-label">Abbr:</span>
+            <span class="info-value">{{ sourceInfo.abbreviation }}</span>
+          </div>
+          <div class="info-row">
+            <span class="info-label">Timezone:</span>
             <span class="info-value">{{ sourceInfo.offset }}</span>
           </div>
           <div v-if="sourceInfo.isDST" class="dst-badge">📍 DST</div>
@@ -126,7 +130,11 @@
 
         <div v-if="targetInfo" class="timezone-info">
           <div class="info-row">
-            <span class="info-label">{{ targetInfo.abbreviation }}</span>
+            <span class="info-label">Abbr:</span>
+            <span class="info-value">{{ targetInfo.abbreviation }}</span>
+          </div>
+          <div class="info-row">
+            <span class="info-label">Timezone:</span>
             <span class="info-value">{{ targetInfo.offset }}</span>
           </div>
           <div v-if="targetInfo.isDST" class="dst-badge">📍 DST</div>
@@ -349,7 +357,8 @@ convertTimezone()
 .timezone-converter {
   background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
   border-radius: 16px;
-  padding: 32px;
+  padding: 36px 32px;
+  min-height: 420px;
   box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
   color: white;
   max-width: 1000px;
@@ -369,6 +378,7 @@ convertTimezone()
 .timezone-section {
   flex: 1;
   min-width: 280px;
+  min-height: 260px;
   background: rgba(255, 255, 255, 0.1);
   border-radius: 12px;
   padding: 24px;
@@ -509,9 +519,9 @@ convertTimezone()
   padding: 8px 12px;
   margin-top: 8px;
   display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 12px;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 4px;
 }
 
 .info-row {
@@ -636,29 +646,102 @@ convertTimezone()
 
 @media (max-width: 768px) {
   .timezone-converter {
-    padding: 16px;
+    padding: 20px 16px;
+    min-height: 520px;
   }
 
   .converters-row {
     flex-direction: column;
+    gap: 16px;
+    margin-bottom: 20px;
   }
 
   .timezone-section {
     min-width: 100%;
+    min-height: 220px;
+    padding: 20px 16px;
+  }
+
+  .timezone-input-group {
+    gap: 10px;
+    margin-bottom: 12px;
+  }
+
+  .time-input,
+  .date-input {
+    padding: 14px;
+    font-size: 16px; /* Prevents iOS zoom on focus */
+    min-height: 48px;
+  }
+
+  .search-input {
+    padding: 14px;
+    font-size: 16px; /* Prevents iOS zoom on focus */
+    min-height: 48px;
   }
 
   .swap-section {
-    padding: 8px 0;
+    padding: 4px 0;
   }
 
   .swap-button {
-    width: 44px;
-    height: 44px;
-    font-size: 22px;
+    width: 48px;
+    height: 48px;
+    font-size: 24px;
+    min-width: 48px; /* Touch target */
+  }
+
+  .quick-pairs {
+    padding: 18px 16px;
   }
 
   .pairs-grid {
-    grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+  }
+
+  .pair-button {
+    padding: 14px 12px;
+    min-height: 48px;
+  }
+
+  .custom-dropdown {
+    max-height: min(50vh, 280px);
+    min-width: min(100vw - 32px, 320px);
+  }
+}
+
+@media (max-width: 480px) {
+  .timezone-converter {
+    padding: 16px 12px;
+    min-height: 480px;
+    border-radius: 12px;
+  }
+
+  .timezone-section {
+    padding: 16px 12px;
+    min-height: 200px;
+  }
+
+  .label {
+    font-size: 12px;
+  }
+
+  .time-input,
+  .date-input {
+    padding: 12px;
+  }
+
+  .search-input {
+    padding: 12px;
+  }
+
+  .pairs-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .pair-button {
+    padding: 12px;
   }
 }
 </style>

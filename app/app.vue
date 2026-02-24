@@ -75,11 +75,13 @@ const installApp = async () => {
   display: flex;
   flex-direction: column;
   min-height: 100vh;
+  min-height: 100dvh; /* Dynamic viewport for mobile browsers */
   background: linear-gradient(135deg, #1e3c72 0%, #2a5298 50%, #7e22ce 100%);
   background-attachment: fixed;
   color: white;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial,
     sans-serif;
+  padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
 }
 
 .app-header {
@@ -224,17 +226,24 @@ const installApp = async () => {
 
   .converter-wrapper {
     margin-bottom: 12px;
+    width: 100%;
   }
 
   .app-footer {
     padding: 12px 16px;
     font-size: 12px;
   }
+
+  .install-button {
+    padding: 12px 24px;
+    min-height: 44px;
+  }
 }
 
 @media (max-width: 480px) {
   .app-container {
     min-height: 100vh;
+    min-height: 100dvh;
   }
 
   .app-header {
@@ -250,12 +259,21 @@ const installApp = async () => {
     font-size: 28px;
   }
 
+  .app-subtitle {
+    font-size: 13px;
+  }
+
   .app-main {
-    padding: 14px 12px;
+    padding: 12px 10px;
   }
 
   .converter-wrapper {
     margin-bottom: 10px;
+  }
+
+  .app-footer {
+    padding: 12px 10px;
+    font-size: 11px;
   }
 }
 </style>
