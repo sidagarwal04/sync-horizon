@@ -39,19 +39,21 @@
               autocomplete="off"
               ref="sourceInputRef"
             />
-            <div v-if="sourceDropdownOpen && sourceSuggestions.length > 0" class="custom-dropdown" :style="sourceDropdownStyle" @mousedown.prevent>
-              <div
-                v-for="tz in sourceSuggestions"
-                :key="tz"
-                class="dropdown-option"
-                @mousedown.prevent
-                @click="selectSourceTimezone(tz)"
-              >
-                <div class="option-abbr">[{{ getAbbreviation(tz) }}]</div>
-                <div class="option-main">{{ getFormattedTimezone(tz) }}</div>
-                <div class="option-country">{{ getCountry(tz) }}</div>
+            <Teleport to="body">
+              <div v-if="sourceDropdownOpen && sourceSuggestions.length > 0" class="custom-dropdown" :style="sourceDropdownStyle" @mousedown.prevent>
+                <div
+                  v-for="tz in sourceSuggestions"
+                  :key="tz"
+                  class="dropdown-option"
+                  @mousedown.prevent
+                  @click="selectSourceTimezone(tz)"
+                >
+                  <div class="option-abbr">[{{ getAbbreviation(tz) }}]</div>
+                  <div class="option-main">{{ getFormattedTimezone(tz) }}</div>
+                  <div class="option-country">{{ getCountry(tz) }}</div>
+                </div>
               </div>
-            </div>
+            </Teleport>
           </div>
         </div>
 
@@ -109,19 +111,21 @@
               autocomplete="off"
               ref="targetInputRef"
             />
-            <div v-if="targetDropdownOpen && targetSuggestions.length > 0" class="custom-dropdown" :style="targetDropdownStyle" @mousedown.prevent>
-              <div
-                v-for="tz in targetSuggestions"
-                :key="tz"
-                class="dropdown-option"
-                @mousedown.prevent
-                @click="selectTargetTimezone(tz)"
-              >
-                <div class="option-abbr">[{{ getAbbreviation(tz) }}]</div>
-                <div class="option-main">{{ getFormattedTimezone(tz) }}</div>
-                <div class="option-country">{{ getCountry(tz) }}</div>
+            <Teleport to="body">
+              <div v-if="targetDropdownOpen && targetSuggestions.length > 0" class="custom-dropdown" :style="targetDropdownStyle" @mousedown.prevent>
+                <div
+                  v-for="tz in targetSuggestions"
+                  :key="tz"
+                  class="dropdown-option"
+                  @mousedown.prevent
+                  @click="selectTargetTimezone(tz)"
+                >
+                  <div class="option-abbr">[{{ getAbbreviation(tz) }}]</div>
+                  <div class="option-main">{{ getFormattedTimezone(tz) }}</div>
+                  <div class="option-country">{{ getCountry(tz) }}</div>
+                </div>
               </div>
-            </div>
+            </Teleport>
           </div>
         </div>
 
