@@ -218,14 +218,14 @@ const formatTimezoneOption = (tz: string) => {
 
 const selectSourceTimezone = (tz: string) => {
   sourceTimezone.value = tz
-  sourceTimezoneSearch.value = ''
+  sourceTimezoneSearch.value = getFormattedTimezone(tz)
   sourceDropdownOpen.value = false
   convertTimezone()
 }
 
 const selectTargetTimezone = (tz: string) => {
   targetTimezone.value = tz
-  targetTimezoneSearch.value = ''
+  targetTimezoneSearch.value = getFormattedTimezone(tz)
   targetDropdownOpen.value = false
   convertTimezone()
 }
@@ -261,8 +261,8 @@ const swapTimezones = () => {
 const selectPair = (fromTz: string, toTz: string) => {
   sourceTimezone.value = fromTz
   targetTimezone.value = toTz
-  sourceTimezoneSearch.value = ''
-  targetTimezoneSearch.value = ''
+  sourceTimezoneSearch.value = getFormattedTimezone(fromTz)
+  targetTimezoneSearch.value = getFormattedTimezone(toTz)
   sourceTime.value = '12:00'
   sourceDate.value = new Date().toISOString().substring(0, 10)
   convertTimezone()

@@ -173,12 +173,13 @@ export const useTimezone = () => {
     const hasDSTTransition = jan.utcOffset() !== jul.utcOffset()
     const isDST = hasDSTTransition && tzDate.utcOffset() === jul.utcOffset()
 
+    const rawDisplayName = tz.split('/').pop() || tz
     return {
       name: tz,
       abbreviation: getAbbreviation(tz),
       offset: offsetStr,
       isDST,
-      displayName: tz.split('/').pop() || tz,
+      displayName: formatDisplayName(rawDisplayName),
       country: getCountry(tz),
     }
   }
@@ -318,11 +319,17 @@ export const useTimezone = () => {
   }
 
   /**
+   * Format location name for display (replace underscores with spaces)
+   */
+  const formatDisplayName = (name: string): string => name.replace(/_/g, ' ')
+
+  /**
    * Get formatted timezone display string with abbreviation
    */
   const getFormattedTimezone = (tz: string): string => {
     const abbreviation = getAbbreviation(tz)
-    const displayName = tz.split('/').pop() || tz
+    const rawName = tz.split('/').pop() || tz
+    const displayName = formatDisplayName(rawName)
     return `${displayName} (${abbreviation})`
   }
 
