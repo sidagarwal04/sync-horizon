@@ -7,12 +7,16 @@
     "dev": "nuxt dev",
     "generate": "nuxt generate",
     "preview": "nuxt preview",
-    "postinstall": "nuxt prepare"
+    "postinstall": "nuxt prepare",
+    "favicon": "node scripts/generate-favicon.mjs"
   },
   "dependencies": {
     "dayjs": "^1.11.19",
     "nuxt": "^4.1.3",
     "vue": "^3.5.28",
     "vue-router": "^4.6.4"
+  },
+  "devDependencies": {
+    "to-ico": "^1.1.5"
   }
 }
