@@ -346,6 +346,7 @@ export const useTimezone = () => {
     hasDST,
     getDSTTransitions,
     getFormattedTimezone,
+    formatDisplayName,
   }
 }
 

@@ -150,7 +150,7 @@
           class="pair-button"
         >
           <p class="pair-abbr">{{ getAbbreviation(pair[0]) }} → {{ getAbbreviation(pair[1]) }}</p>
-          <p class="pair-location">{{ pair[0].split('/')[1] }} to {{ pair[1].split('/')[1] }}</p>
+          <p class="pair-location">{{ formatDisplayName(pair[0].split('/').pop() || '') }} to {{ formatDisplayName(pair[1].split('/').pop() || '') }}</p>
         </button>
       </div>
     </div>
@@ -171,6 +171,7 @@ const {
   searchTimezones,
   getFormattedTimezone,
   getAllTimezones,
+  formatDisplayName,
 } = useTimezone()
 
 const sourceTime = ref('12:00')
