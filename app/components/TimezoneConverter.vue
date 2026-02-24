@@ -27,7 +27,7 @@
         </div>
 
         <div class="timezone-select">
-          <div class="timezone-select-wrapper">
+          <div ref="sourceWrapperRef" class="timezone-select-wrapper">
             <input
               v-model="sourceTimezoneSearch"
               type="text"
@@ -35,13 +35,11 @@
               class="search-input"
               aria-label="Search source timezone"
               @focus="() => { sourceDropdownOpen = true; updateSourceDropdownPosition() }"
-              @blur="sourceDropdownOpen = false"
-              @keydown.esc="sourceDropdownOpen = false"
               @input="updateSourceDropdownPosition"
               autocomplete="off"
               ref="sourceInputRef"
             />
-            <div v-if="sourceDropdownOpen && sourceSuggestions.length > 0" class="custom-dropdown" :style="sourceDropdownStyle">
+            <div v-if="sourceDropdownOpen && sourceSuggestions.length > 0" class="custom-dropdown" :style="sourceDropdownStyle" @mousedown.prevent>
               <div
                 v-for="tz in sourceSuggestions"
                 :key="tz"
@@ -99,7 +97,7 @@
         </div>
 
         <div class="timezone-select">
-          <div class="timezone-select-wrapper">
+          <div ref="targetWrapperRef" class="timezone-select-wrapper">
             <input
               v-model="targetTimezoneSearch"
               type="text"
@@ -107,13 +105,11 @@
               class="search-input"
               aria-label="Search target timezone"
               @focus="() => { targetDropdownOpen = true; updateTargetDropdownPosition() }"
-              @blur="targetDropdownOpen = false"
-              @keydown.esc="targetDropdownOpen = false"
               @input="updateTargetDropdownPosition"
               autocomplete="off"
               ref="targetInputRef"
             />
-            <div v-if="targetDropdownOpen && targetSuggestions.length > 0" class="custom-dropdown" :style="targetDropdownStyle">
+            <div v-if="targetDropdownOpen && targetSuggestions.length > 0" class="custom-dropdown" :style="targetDropdownStyle" @mousedown.prevent>
               <div
                 v-for="tz in targetSuggestions"
                 :key="tz"
@@ -158,7 +154,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed, watch } from 'vue'
+import { ref, computed, watch, nextTick, onBeforeUnmount } from 'vue'
 import { useTimezone } from '~/composables/useTimezone'
 import type { TimezoneInfo } from '~/composables/useTimezone'
 
@@ -178,6 +174,7 @@ const sourceDate = ref(new Date().toISOString().substring(0, 10))
 const sourceTimezone = ref('America/New_York')
 const sourceTimezoneSearch = ref('')
 const sourceInputRef = ref<HTMLInputElement | null>(null)
+const sourceWrapperRef = ref<HTMLElement | null>(null)
 const sourceDropdownOpen = ref(false)
 const sourceDropdownStyle = ref({ top: '0px', left: '0px', width: '0px' })
 const targetTime = ref('00:00')
@@ -185,6 +182,7 @@ const targetDate = ref(new Date().toISOString().substring(0, 10))
 const targetTimezone = ref('Asia/Kolkata')
 const targetTimezoneSearch = ref('')
 const targetInputRef = ref<HTMLInputElement | null>(null)
+const targetWrapperRef = ref<HTMLElement | null>(null)
 const targetDropdownOpen = ref(false)
 const targetDropdownStyle = ref({ top: '0px', left: '0px', width: '0px' })
 const sourceInfo = ref<TimezoneInfo | null>(null)
@@ -287,6 +285,43 @@ const updateTargetDropdownPosition = () => {
     }
   }
 }
+
+// Click outside and Esc key to close dropdown
+let listenersAdded = false
+const handleClickOutside = (e: MouseEvent) => {
+  const target = e.target as Node
+  if (sourceDropdownOpen.value && sourceWrapperRef.value && !sourceWrapperRef.value.contains(target)) {
+    sourceDropdownOpen.value = false
+  }
+  if (targetDropdownOpen.value && targetWrapperRef.value && !targetWrapperRef.value.contains(target)) {
+    targetDropdownOpen.value = false
+  }
+}
+const handleKeydown = (e: KeyboardEvent) => {
+  if (e.key === 'Escape') {
+    sourceDropdownOpen.value = false
+    targetDropdownOpen.value = false
+  }
+}
+watch([sourceDropdownOpen, targetDropdownOpen], ([sourceOpen, targetOpen]) => {
+  const anyOpen = sourceOpen || targetOpen
+  if (anyOpen && !listenersAdded) {
+    nextTick(() => {
+      document.addEventListener('click', handleClickOutside)
+      document.addEventListener('keydown', handleKeydown)
+      listenersAdded = true
+    })
+  } else if (!anyOpen && listenersAdded) {
+    document.removeEventListener('click', handleClickOutside)
+    document.removeEventListener('keydown', handleKeydown)
+    listenersAdded = false
+  }
+}, { immediate: true })
+onBeforeUnmount(() => {
+  document.removeEventListener('click', handleClickOutside)
+  document.removeEventListener('keydown', handleKeydown)
+  listenersAdded = false
+})
 
 // Watch for timezone changes
 watch(sourceTimezone, () => {
